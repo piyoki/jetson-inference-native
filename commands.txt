@@ -4,7 +4,7 @@ curl -X POST -H "Content-Type: application/json" \
 
 docker run --name jetson-inference-native -d \
   -e TZ=Asia/Shanghai \
-  --network host \
+  -p 5000:5000 \
   --runtime nvidia \
   hikariai/jetson-inference-native
 
