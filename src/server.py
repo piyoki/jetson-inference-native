@@ -5,7 +5,6 @@ import re
 from urllib.request import urlopen
 import os
 import sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from inference import run_inference
 
 
@@ -23,7 +22,7 @@ inference_args.add_argument(
 # initilize result dictionary
 result_dict = {}
 
-# check if the url is invalid
+
 def abort_if_url_invalid(url):
 
     # check url images
@@ -31,12 +30,6 @@ def abort_if_url_invalid(url):
     meta = urlopen(url).info()  # get header of the http request
     if not meta["content-type"] in image_formats:  # check if the content-type is a image
         abort(403, msg="image url is invalid, please try again!")
-
-    # check local images
-    #  regex = "([^\\s]+(\\.(?i)(jpe?g|png|gif))$)"
-    #  p = re.compile(regex)
-    #  if not (re.search(p, url)):
-    #      abort(409, msg="image url is invalid, please try again!")
 
 
 class Inference(Resource):
@@ -50,17 +43,16 @@ class Inference(Resource):
 
         result_dict[id] = args
 
-        # put computing logic here
+        # perform the inference task
         result = run_inference(args['network'], args['url'])
 
         return {"result": {
                 "id": str(id),
-                "network": "{:s}%".format(args['network']),
+                "network": "{:s}".format(args['network']),
                 "recognized_object": "{:s}".format(result['recognized_object']),
                 "class_number": "{:d}".format(result['class_number']),
                 "confidence": "{:f}%" .format(result['confidence'])
                 }}, 200
-        return result_dict[id], 200
 
 
 api.add_resource(Inference, "/inference")
