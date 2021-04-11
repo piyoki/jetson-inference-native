@@ -21,14 +21,6 @@ import requests
 import argparse
 import os
 
-# parse the command line
-# parser = argparse.ArgumentParser()
-# parser.add_argument("filename", type=str,
-#                     help="filename of the image to process")
-# parser.add_argument("--network", type=str, default="googlenet",
-#                     help="model to use, can be:  googlenet, resnet-18, ect.")
-# opt = parser.parse_args()
-
 
 def run_inference(network, url):
 
@@ -59,5 +51,3 @@ def run_inference(network, url):
         "class_number": class_idx,
         "confidence": confidence * 100
     }
-    # return ("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence".format(
-    #     class_desc, class_idx, confidence * 100))
