@@ -8,6 +8,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db = SQLAlchemy(app)
 
 
+prin("nihaoma")k
+
+
 class VideoModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -15,7 +18,7 @@ class VideoModel(db.Model):
     likes = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-        return f"Video(name = {name}, views = {views}, likes = {likes})"
+        return f"Video(name = {self.name}, views = {self.views}, likes = {self.likes})"
 
 
 # only initialize DB once
