@@ -1,7 +1,3 @@
 curl -X POST -H "Content-Type: application/json" \
      -d '{"url": "https://cdn.download.ams.birds.cornell.edu/api/v1/asset/171633971"}' \
-<<<<<<< HEAD
-     http://localhost:5000/inference
-=======
      https://localhost:5000/inference
->>>>>>> ea38b8f9bd91a11c02af4e8de84c0a515d50c89f
