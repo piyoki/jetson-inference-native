@@ -1,3 +1,6 @@
+
+
+
 from flask import Flask
 from flask_restful import Api, Resource, reqparse, abort
 import uuid
@@ -16,11 +19,12 @@ api = Api(app)
 # args parser
 inference_args = reqparse.RequestParser()
 inference_args.add_argument(
+    "network", type=str, help="please put a valid image url")
+inference_args.add_argument(
     "url", type=str, help="please put a valid image url", required=True)
 
 # initilize result dictionary
 result_dict = {}
-
 
 # check if the url is invalid
 def abort_if_url_invalid(url):
@@ -50,10 +54,16 @@ class Inference(Resource):
         result_dict[id] = args
 
         # put computing logic here
-        result = run_inference(args['url'])
+        result = run_inference(args['network'], args['url'])
 
-        return {"result": result}, 200
-        # return result_dict[id], 200
+        return {"result": {
+                "id": str(id),
+                "network": "{:s}%".format(args['network']),
+                "recognized_object": "{:s}".format(result['recognized_object']),
+                "class_number": "{:d}".format(result['class_number']),
+                "confidence": "{:f}%" .format(result['confidence'])
+                }}, 200
+        return result_dict[id], 200
 
 
 api.add_resource(Inference, "/inference")

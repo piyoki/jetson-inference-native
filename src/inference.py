@@ -30,7 +30,7 @@ import os
 # opt = parser.parse_args()
 
 
-def run_inference(url):
+def run_inference(network, url):
 
     # load an image (into shared CPU/GPU memory)
     response = requests.get(url)
@@ -41,7 +41,7 @@ def run_inference(url):
     img = jetson.utils.loadImage('./cache.jpg')
 
     # load the recognition network
-    net = jetson.inference.imageNet('resnet-18')
+    net = jetson.inference.imageNet(network)
     # net = jetson.inference.imageNet(opt.network)
 
     # classify the image
@@ -54,5 +54,10 @@ def run_inference(url):
     os.remove(img_path)
 
     # return the result as outputs
-    return ("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence".format(
-        class_desc, class_idx, confidence * 100))
+    return {
+        "recognized_object": class_desc,
+        "class_number": class_idx,
+        "confidence": confidence * 100
+    }
+    # return ("image is recognized as '{:s}' (class #{:d}) with {:f}% confidence".format(
+    #     class_desc, class_idx, confidence * 100))
