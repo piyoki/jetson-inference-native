@@ -17,6 +17,7 @@ BASE = "http://127.0.0.1:5000/"
 #  img = Image.open(image_bytes)
 #  img.show()
 
-response = requests.post(BASE + "inference", {"url": "https://baidu.com"})
+response = requests.post(
+    BASE + "inference", {"url": "https://i.guim.co.uk/img/media/bd3bd1958ba8528446be026a806892f217204f04/0_173_5184_3110/master/5184.jpg?width=1200&height=1200&quality=85&auto=format&fit=crop&s=a251698ed3806300769ed9bcfec854c0"})
 
 print(response.json())

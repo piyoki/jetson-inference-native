@@ -3,6 +3,11 @@ from flask_restful import Api, Resource, reqparse, abort
 import uuid
 import re
 from urllib.request import urlopen
+import os
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from inference import run_inference
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -14,7 +19,7 @@ inference_args.add_argument(
     "url", type=str, help="please put a valid image url", required=True)
 
 # initilize result dictionary
-result = {}
+result_dict = {}
 
 
 # check if the url is invalid
@@ -42,11 +47,13 @@ class Inference(Resource):
         args = inference_args.parse_args()
         abort_if_url_invalid(args['url'])
 
-        result[id] = args
+        result_dict[id] = args
 
         # put computing logic here
+        result = run_inference(args['url'])
 
-        return result[id], 200
+        return {"result": result}, 200
+        # return result_dict[id], 200
 
 
 api.add_resource(Inference, "/inference")
